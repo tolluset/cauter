@@ -2,10 +2,17 @@
   "name": "cauter",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun index.ts"
+  },
   "devDependencies": {
+    "@types/pg": "^8.11.13",
     "bun-types": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "pg": "^8.14.1"
   }
 }
