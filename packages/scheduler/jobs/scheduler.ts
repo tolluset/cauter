@@ -1,5 +1,5 @@
+import type { BinanceKline } from "../clients/binance.client";
 import { BinanceCollector } from "../services/binance-collector";
-import { BinanceKline } from "../clients/binance.client";
 
 // OHLCV 데이터를 객체 형태로 변환하는 함수
 const convertToOHLCVObject = (klines: BinanceKline[]) => {
@@ -49,7 +49,7 @@ export function startScheduler() {
 				const data: BinanceKline[] = await collector.collectHourlyKlines();
 				const formattedData = convertToOHLCVObject(data); // 객체 형태로 변환
 
-				console.log(`1시간봉 데이터 수집 완료:`);
+				console.log("1시간봉 데이터 수집 완료:");
 				console.table(formattedData); // 수집된 데이터 로그를 테이블 형식으로 출력
 			} catch (error) {
 				console.error("1시간봉 데이터 수집 실패:", error);
@@ -66,7 +66,7 @@ export function startScheduler() {
 			try {
 				const data: BinanceKline[] = await collector.collect4HourKlines();
 				const formattedData = convertToOHLCVObject(data); // 객체 형태로 변환
-				console.log(`4시간봉 데이터 수집 완료:`);
+				console.log("4시간봉 데이터 수집 완료:");
 				console.table(formattedData); // 수집된 데이터 로그를 테이블 형식으로 출력
 			} catch (error) {
 				console.error("4시간봉 데이터 수집 실패:", error);
@@ -91,12 +91,8 @@ export function startScheduler() {
 			try {
 				const data: BinanceKline[] = await collector.collectDailyKlines();
 				const formattedData = convertToOHLCVObject(data); // 객체 형태로 변환
-				const localTime = new Intl.DateTimeFormat("en-US", {
-					timeZone: "Asia/Seoul",
-					dateStyle: "short",
-					timeStyle: "long",
-				}).format(new Date()); // KST로 변환, 영어 형식
-				console.log(`일봉 데이터 수집 완료:`);
+
+				console.log("일봉 데이터 수집 완료:");
 				console.table(formattedData); // 수집된 데이터 로그를 테이블 형식으로 출력
 			} catch (error) {
 				console.error("일봉 데이터 수집 실패:", error);

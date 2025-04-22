@@ -7,7 +7,7 @@ export const pool = new Pool({
 	host: process.env.DB_HOST || "postgres_container",
 	database: process.env.DB_NAME || "crypto_data",
 	password: process.env.DB_PASSWORD || "password",
-	port: parseInt(process.env.DB_PORT || "5432"),
+	port: Number.parseInt(process.env.DB_PORT || "5432"),
 });
 
 // 연결 테스트 함수

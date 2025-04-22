@@ -1,5 +1,5 @@
-import { BinanceClient, BinanceKline } from "../clients/binance.client";
-import { Pool } from "pg";
+import type { Pool } from "pg";
+import { BinanceClient, type BinanceKline } from "../clients/binance.client";
 import { pool } from "../db/connection";
 
 export class BinanceCollector {

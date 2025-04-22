@@ -7,7 +7,7 @@
 		"start": "pnpm --filter \"@cauter/*\" start",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
-		"check": "biome check --apply .",
+		"check": "biome check --write .",
 		"scheduler:up": "docker-compose -f docker-compose.scheduler.yml up -d",
 		"scheduler:down": "docker-compose -f docker-compose.scheduler.yml down",
 		"scheduler:logs": "docker-compose -f docker-compose.scheduler.yml logs -f",

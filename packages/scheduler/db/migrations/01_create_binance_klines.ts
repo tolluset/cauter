@@ -1,5 +1,5 @@
 // migrations/01_create_binance_klines.ts
-import { Pool } from "pg";
+import type { Pool } from "pg";
 
 export async function createBinanceKlinesTable(pool: Pool): Promise<void> {
 	// 테이블 생성 쿼리

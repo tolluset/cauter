@@ -58,7 +58,7 @@ async function testTable() {
 
 			// 테스트 완료 후 테스트 데이터 삭제
 			console.log("테스트 데이터 정리 중...");
-			const deleteQuery = `DELETE FROM binance_klines WHERE id = $1`;
+			const deleteQuery = "DELETE FROM binance_klines WHERE id = $1";
 			await client.query(deleteQuery, [result.rows[0].id]);
 			console.log("테스트 데이터가 정리되었습니다.");
 		} finally {
