@@ -30,10 +30,10 @@ export class BinanceClient {
   }
 
   // REST API 기본 요청 메서드
-  private async makeApiRequest(
+  private async makeApiRequest<T>(
     endpoint: string,
     params: Record<string, string> = {},
-  ) {
+  ): Promise<T> {
     const queryString = new URLSearchParams(params).toString();
     const url = `https://api.binance.com/api/v3/${endpoint}?${queryString}`;
 
@@ -42,22 +42,12 @@ export class BinanceClient {
         "X-MBX-APIKEY": this.apiKey,
       },
     });
-    console.info("🚀 : binance.client.ts:40: response=", response);
 
     if (!response.ok) {
       throw new Error(`바이낸스 API 요청 실패: ${response.status}`);
     }
 
-    return await response.json();
-  }
-
-  // 시그니처 생성 (private API용)
-  private generateSignature(queryString: string): string {
-    const crypto = require("crypto");
-    return crypto
-      .createHmac("sha256", this.apiSecret)
-      .update(queryString)
-      .digest("hex");
+    return (await response.json()) as T;
   }
 
   async ping() {
@@ -65,6 +55,24 @@ export class BinanceClient {
     return res;
   }
 
+  /**
+    [
+      [
+        1499040000000,      // Kline open time
+        "0.01634790",       // Open price
+        "0.80000000",       // High price
+        "0.01575800",       // Low price
+        "0.01577100",       // Close price
+        "148976.11427815",  // Volume
+        1499644799999,      // Kline Close time
+        "2434.19055334",    // Quote asset volume
+        308,                // Number of trades
+        "1756.87402397",    // Taker buy base asset volume
+        "28.46694368",      // Taker buy quote asset volume
+        "0"                 // Unused field, ignore.
+      ]
+  ]
+  */
   // Kline/Candlestick 데이터 가져오기
   async getKlines(
     symbol: string,
@@ -74,7 +82,7 @@ export class BinanceClient {
       endTime?: number;
       limit?: number;
     } = {},
-  ) {
+  ): Promise<[]> {
     const params: Record<string, string> = {
       symbol: symbol.toUpperCase(),
       interval,
@@ -84,6 +92,6 @@ export class BinanceClient {
     if (options.endTime) params.endTime = options.endTime.toString();
     if (options.limit) params.limit = options.limit.toString();
 
-    return this.makeApiRequest("klines", params);
+    return this.makeApiRequest<[]>("klines", params);
   }
 }
