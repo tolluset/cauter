@@ -27,3 +27,5 @@ export async function verifyCollector() {
 		console.error("일봉 데이터 수집 실패:", error);
 	}
 }
+
+verifyCollector();
