@@ -1,17 +1,21 @@
 {
-  "name": "cauter",
-  "private": true,
-  "scripts": {
-    "dev": "pnpm --filter \"@cauter/*\" dev",
-    "build": "pnpm --filter \"@cauter/*\" build",
-    "start": "pnpm --filter \"@cauter/*\" start"
-  },
-  "devDependencies": {
-    "@types/pg": "^8.11.13",
-    "bun-types": "latest",
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "pg": "^8.14.1"
-  }
+	"name": "cauter",
+	"private": true,
+	"scripts": {
+		"dev": "pnpm --filter \"@cauter/*\" dev",
+		"build": "pnpm --filter \"@cauter/*\" build",
+		"start": "pnpm --filter \"@cauter/*\" start",
+		"format": "biome format --write .",
+		"lint": "biome lint .",
+		"check": "biome check --apply ."
+	},
+	"devDependencies": {
+		"@types/pg": "^8.11.13",
+		"bun-types": "latest",
+		"typescript": "^5.0.0",
+		"@biomejs/biome": "1.8.3"
+	},
+	"dependencies": {
+		"pg": "^8.14.1"
+	}
 }

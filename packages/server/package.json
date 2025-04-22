@@ -1,13 +1,13 @@
 {
-  "name": "@cauter/server",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "dev": "bun run index.ts",
-    "build": "tsc",
-    "start": "bun run dist/index.js"
-  },
-  "dependencies": {
-    "@cauter/shared": "workspace:*"
-  }
-} 
+	"name": "@cauter/server",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "bun run index.ts",
+		"build": "tsc",
+		"start": "bun run dist/index.js"
+	},
+	"dependencies": {
+		"@cauter/shared": "workspace:*"
+	}
+}

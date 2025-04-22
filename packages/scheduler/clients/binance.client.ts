@@ -2,60 +2,60 @@
 import { WebSocket } from "ws";
 
 interface BinanceKline {
-  openTime: number;
-  open: string;
-  high: string;
-  low: string;
-  close: string;
-  volume: string;
-  closeTime: number;
-  quoteVolume: string;
-  trades: number;
-  takerBuyVolume: string;
-  takerBuyQuoteVolume: string;
-  ignored?: string;
+	openTime: number;
+	open: string;
+	high: string;
+	low: string;
+	close: string;
+	volume: string;
+	closeTime: number;
+	quoteVolume: string;
+	trades: number;
+	takerBuyVolume: string;
+	takerBuyQuoteVolume: string;
+	ignored?: string;
 }
 
 export class BinanceClient {
-  private readonly apiKey: string;
-  private readonly apiSecret: string;
+	private readonly apiKey: string;
+	private readonly apiSecret: string;
 
-  constructor(apiKey?: string, apiSecret?: string) {
-    this.apiKey = apiKey || process.env.BINANCE_API_KEY || "";
-    this.apiSecret = apiSecret || process.env.BINANCE_API_SECRET || "";
+	constructor(apiKey?: string, apiSecret?: string) {
+		this.apiKey = apiKey || process.env.BINANCE_API_KEY || "";
+		this.apiSecret = apiSecret || process.env.BINANCE_API_SECRET || "";
 
-    if (!this.apiKey || !this.apiSecret) {
-      throw new Error("바이낸스 API 키와 시크릿이 필요합니다");
-    }
-  }
+		if (!this.apiKey || !this.apiSecret) {
+			throw new Error("바이낸스 API 키와 시크릿이 필요합니다");
+		}
+	}
 
-  // REST API 기본 요청 메서드
-  private async makeApiRequest<T>(
-    endpoint: string,
-    params: Record<string, string> = {},
-  ): Promise<T> {
-    const queryString = new URLSearchParams(params).toString();
-    const url = `https://api.binance.com/api/v3/${endpoint}?${queryString}`;
+	// REST API 기본 요청 메서드
+	private async makeApiRequest<T>(
+		endpoint: string,
+		params: Record<string, string> = {},
+	): Promise<T> {
+		const queryString = new URLSearchParams(params).toString();
+		const url = `https://api.binance.com/api/v3/${endpoint}?${queryString}`;
 
-    const response = await fetch(url, {
-      headers: {
-        "X-MBX-APIKEY": this.apiKey,
-      },
-    });
+		const response = await fetch(url, {
+			headers: {
+				"X-MBX-APIKEY": this.apiKey,
+			},
+		});
 
-    if (!response.ok) {
-      throw new Error(`바이낸스 API 요청 실패: ${response.status}`);
-    }
+		if (!response.ok) {
+			throw new Error(`바이낸스 API 요청 실패: ${response.status}`);
+		}
 
-    return (await response.json()) as T;
-  }
+		return (await response.json()) as T;
+	}
 
-  async ping() {
-    const res = await this.makeApiRequest("ping");
-    return res;
-  }
+	async ping() {
+		const res = await this.makeApiRequest("ping");
+		return res;
+	}
 
-  /**
+	/**
     [
       [
         1499040000000,      // Kline open time
@@ -73,25 +73,25 @@ export class BinanceClient {
       ]
   ]
   */
-  // Kline/Candlestick 데이터 가져오기
-  async getKlines(
-    symbol: string,
-    interval: string,
-    options: {
-      startTime?: number;
-      endTime?: number;
-      limit?: number;
-    } = {},
-  ): Promise<[]> {
-    const params: Record<string, string> = {
-      symbol: symbol.toUpperCase(),
-      interval,
-    };
+	// Kline/Candlestick 데이터 가져오기
+	async getKlines(
+		symbol: string,
+		interval: string,
+		options: {
+			startTime?: number;
+			endTime?: number;
+			limit?: number;
+		} = {},
+	): Promise<[]> {
+		const params: Record<string, string> = {
+			symbol: symbol.toUpperCase(),
+			interval,
+		};
 
-    if (options.startTime) params.startTime = options.startTime.toString();
-    if (options.endTime) params.endTime = options.endTime.toString();
-    if (options.limit) params.limit = options.limit.toString();
+		if (options.startTime) params.startTime = options.startTime.toString();
+		if (options.endTime) params.endTime = options.endTime.toString();
+		if (options.limit) params.limit = options.limit.toString();
 
-    return this.makeApiRequest<[]>("klines", params);
-  }
+		return this.makeApiRequest<[]>("klines", params);
+	}
 }
