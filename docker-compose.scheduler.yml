@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  scheduler:
+    build:
+      context: .
+      dockerfile: packages/scheduler/Dockerfile
+    container_name: scheduler_container
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:password@host.docker.internal:5432/crypto_data
+    restart: unless-stopped
+    volumes:
+      - ./packages/scheduler/.env:/app/.env 
