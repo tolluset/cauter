@@ -49,8 +49,9 @@ export function startScheduler() {
 				const data: BinanceKline[] = await collector.collectHourlyKlines();
 				const formattedData = convertToOHLCVObject(data); // 객체 형태로 변환
 
-				console.log("1시간봉 데이터 수집 완료:");
+				console.log(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }), "1시간봉 데이터 수집 완료:");
 				console.table(formattedData); // 수집된 데이터 로그를 테이블 형식으로 출력
+				console.log("");
 			} catch (error) {
 				console.error("1시간봉 데이터 수집 실패:", error);
 			}
@@ -66,8 +67,9 @@ export function startScheduler() {
 			try {
 				const data: BinanceKline[] = await collector.collect4HourKlines();
 				const formattedData = convertToOHLCVObject(data); // 객체 형태로 변환
-				console.log("4시간봉 데이터 수집 완료:");
+				console.log(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }), "4시간봉 데이터 수집 완료:");
 				console.table(formattedData); // 수집된 데이터 로그를 테이블 형식으로 출력
+				console.log("");
 			} catch (error) {
 				console.error("4시간봉 데이터 수집 실패:", error);
 			}
@@ -92,8 +94,9 @@ export function startScheduler() {
 				const data: BinanceKline[] = await collector.collectDailyKlines();
 				const formattedData = convertToOHLCVObject(data); // 객체 형태로 변환
 
-				console.log("일봉 데이터 수집 완료:");
+				console.log(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }), "일봉 데이터 수집 완료:");
 				console.table(formattedData); // 수집된 데이터 로그를 테이블 형식으로 출력
+				console.log("");
 			} catch (error) {
 				console.error("일봉 데이터 수집 실패:", error);
 			}

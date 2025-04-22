@@ -22,11 +22,22 @@ export class BinanceCollector {
         close_price, volume, close_time, quote_asset_volume, number_of_trades,
         taker_buy_base_volume, taker_buy_quote_volume
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-      ON CONFLICT (symbol, interval, open_time) DO NOTHING
+      ON CONFLICT (symbol, interval, open_time) DO UPDATE SET
+          open_price = EXCLUDED.open_price,
+          high_price = EXCLUDED.high_price,
+          low_price = EXCLUDED.low_price,
+          close_price = EXCLUDED.close_price,
+          volume = EXCLUDED.volume,
+          close_time = EXCLUDED.close_time,
+          quote_asset_volume = EXCLUDED.quote_asset_volume,
+          number_of_trades = EXCLUDED.number_of_trades,
+          taker_buy_base_volume = EXCLUDED.taker_buy_base_volume,
+          taker_buy_quote_volume = EXCLUDED.taker_buy_quote_volume
+	  RETURNING id;
     `;
 
 		for (const kline of klines) {
-			await this.db.query(query, [
+			const result = await this.db.query(query, [
 				symbol,
 				interval,
 				new Date(kline[0]),
@@ -41,6 +52,8 @@ export class BinanceCollector {
 				kline[9],
 				kline[10],
 			]);
+			const insertedId = result.rows[0].id; // 삽입된 ID 가져오기
+			console.log(`Inserted ID: ${insertedId}`); // ID 로그 출력
 		}
 	}
 
