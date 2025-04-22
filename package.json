@@ -1,15 +1,14 @@
 {
   "name": "cauter",
-  "module": "index.ts",
-  "type": "module",
+  "private": true,
   "scripts": {
-    "start": "bun index.ts"
+    "dev": "pnpm --filter \"@cauter/*\" dev",
+    "build": "pnpm --filter \"@cauter/*\" build",
+    "start": "pnpm --filter \"@cauter/*\" start"
   },
   "devDependencies": {
     "@types/pg": "^8.11.13",
-    "bun-types": "latest"
-  },
-  "peerDependencies": {
+    "bun-types": "latest",
     "typescript": "^5.0.0"
   },
   "dependencies": {
