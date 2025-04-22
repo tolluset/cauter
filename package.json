@@ -12,6 +12,7 @@
 		"scheduler:down": "docker-compose -f docker-compose.scheduler.yml down",
 		"scheduler:logs": "docker-compose -f docker-compose.scheduler.yml logs -f",
 		"scheduler:build": "docker-compose -f docker-compose.scheduler.yml build",
+		"scheduler:restart": "pnpm scheduler:build && pnpm scheduler:up",
 		"db:up": "docker-compose -f docker-compose.db.yml up -d",
 		"db:down": "docker-compose -f docker-compose.db.yml down",
 		"db:logs": "docker-compose -f docker-compose.db.yml logs -f"

@@ -1,4 +1,4 @@
-import { BinanceClient } from "../clients/binance.client";
+import { BinanceClient, BinanceKline } from "../clients/binance.client";
 import { Pool } from "pg";
 import { pool } from "../db/connection";
 
@@ -11,7 +11,11 @@ export class BinanceCollector {
 		this.db = pool;
 	}
 
-	private async saveKlines(symbol: string, interval: string, klines: any[]) {
+	private async saveKlines(
+		symbol: string,
+		interval: string,
+		klines: BinanceKline[],
+	): Promise<void> {
 		const query = `
       INSERT INTO binance_klines (
         symbol, interval, open_time, open_price, high_price, low_price,
@@ -40,36 +44,51 @@ export class BinanceCollector {
 		}
 	}
 
-	async collectHourlyKlines() {
+	async collectHourlyKlines(): Promise<BinanceKline[]> {
 		const endTime = Date.now();
 		const startTime = endTime - 2 * 60 * 60 * 1000; // 2시간 전
-		const klines = await this.binanceClient.getKlines("BTCUSDT", "1h", {
-			startTime,
-			endTime,
-			limit: 2,
-		});
+		const klines: BinanceKline[] = await this.binanceClient.getKlines(
+			"BTCUSDT",
+			"1h",
+			{
+				startTime,
+				endTime,
+				limit: 2,
+			},
+		);
 		await this.saveKlines("BTCUSDT", "1h", klines);
+		return klines;
 	}
 
-	async collect4HourKlines() {
+	async collect4HourKlines(): Promise<BinanceKline[]> {
 		const endTime = Date.now();
 		const startTime = endTime - 8 * 60 * 60 * 1000; // 8시간 전
-		const klines = await this.binanceClient.getKlines("BTCUSDT", "4h", {
-			startTime,
-			endTime,
-			limit: 2,
-		});
+		const klines: BinanceKline[] = await this.binanceClient.getKlines(
+			"BTCUSDT",
+			"4h",
+			{
+				startTime,
+				endTime,
+				limit: 2,
+			},
+		);
 		await this.saveKlines("BTCUSDT", "4h", klines);
+		return klines;
 	}
 
-	async collectDailyKlines() {
+	async collectDailyKlines(): Promise<BinanceKline[]> {
 		const endTime = Date.now();
 		const startTime = endTime - 2 * 24 * 60 * 60 * 1000; // 2일 전
-		const klines = await this.binanceClient.getKlines("BTCUSDT", "1d", {
-			startTime,
-			endTime,
-			limit: 2,
-		});
+		const klines: BinanceKline[] = await this.binanceClient.getKlines(
+			"BTCUSDT",
+			"1d",
+			{
+				startTime,
+				endTime,
+				limit: 2,
+			},
+		);
 		await this.saveKlines("BTCUSDT", "1d", klines);
+		return klines;
 	}
 }

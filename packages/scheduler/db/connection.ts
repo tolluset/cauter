@@ -4,7 +4,7 @@ import { Pool } from "pg";
 // PostgreSQL 연결 풀 생성
 export const pool = new Pool({
 	user: process.env.DB_USER || "postgres",
-	host: process.env.DB_HOST || "localhost",
+	host: process.env.DB_HOST || "postgres_container",
 	database: process.env.DB_NAME || "crypto_data",
 	password: process.env.DB_PASSWORD || "password",
 	port: parseInt(process.env.DB_PORT || "5432"),

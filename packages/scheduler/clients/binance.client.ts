@@ -1,20 +1,21 @@
 // src/clients/binance.client.ts
 import { WebSocket } from "ws";
 
-interface BinanceKline {
-	openTime: number;
-	open: string;
-	high: string;
-	low: string;
-	close: string;
-	volume: string;
-	closeTime: number;
-	quoteVolume: string;
-	trades: number;
-	takerBuyVolume: string;
-	takerBuyQuoteVolume: string;
-	ignored?: string;
-}
+// OHLCV 타입 정의
+export type BinanceKline = [
+	number, // openTime
+	string, // open
+	string, // high
+	string, // low
+	string, // close
+	string, // volume
+	number, // closeTime
+	string, // quoteVolume
+	number, // numberOfTrades
+	string, // takerBuyBaseVolume
+	string, // takerBuyQuoteVolume
+	string, // ignored
+];
 
 export class BinanceClient {
 	private readonly apiKey: string;
@@ -82,7 +83,7 @@ export class BinanceClient {
 			endTime?: number;
 			limit?: number;
 		} = {},
-	): Promise<[]> {
+	): Promise<BinanceKline[]> {
 		const params: Record<string, string> = {
 			symbol: symbol.toUpperCase(),
 			interval,
@@ -92,6 +93,6 @@ export class BinanceClient {
 		if (options.endTime) params.endTime = options.endTime.toString();
 		if (options.limit) params.limit = options.limit.toString();
 
-		return this.makeApiRequest<[]>("klines", params);
+		return this.makeApiRequest("klines", params);
 	}
 }
