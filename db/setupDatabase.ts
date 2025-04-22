@@ -1,6 +1,6 @@
 // setup/setupDatabase.ts
-import { pool, testConnection } from "../db/connection";
-import { createBinanceKlinesTable } from "../migrations/01_create_binance_klines";
+import { pool, testConnection } from "./connection";
+import { createBinanceKlinesTable } from "./migrations/01_create_binance_klines";
 
 async function setup() {
   try {

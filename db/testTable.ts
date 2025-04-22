@@ -1,5 +1,5 @@
 // tests/testTable.ts
-import { pool, testConnection } from "../db/connection";
+import { pool, testConnection } from "./connection";
 
 async function testTable() {
   try {
